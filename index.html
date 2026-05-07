@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freelancer OS — One Notion System to Run Your Freelance Business</title>
+<meta name="description" content="Freelancer OS is a complete Notion workspace for freelancers. Client tracker, invoice tracker, lead pipeline, AI prompts — €27 one-time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0c0c0b;
+    --surface: #141413;
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.15);
+    --text: #f0ede8;
+    --muted: #8a8680;
+    --accent: #c8f55a;
+    --accent-dark: #a8d43a;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'Manrope', system-ui, sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 2rem;
+    background: rgba(12,12,11,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+  .nav-cta {
+    background: var(--accent);
+    color: #0c0c0b;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 0.5rem 1.25rem;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent-dark); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 6rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 600px;
+    background: radial-gradient(ellipse at center, rgba(200,245,90,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.1s;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1.1;
+    max-width: 720px;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.2s;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.3s;
+  }
+  .hero-actions {
+    display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; justify-content: center;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.4s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0c0c0b;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 0.875rem 2rem;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+  .btn-secondary {
+    color: var(--muted);
+    font-size: 14px;
+    text-decoration: none;
+    padding: 0.875rem 1rem;
+    transition: color 0.2s;
+  }
+  .btn-secondary:hover { color: var(--text); }
+  .price-badge {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.5s;
+  }
+
+  /* FEATURES GRID */
+  section { padding: 6rem 2rem; max-width: 1100px; margin: 0 auto; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+    margin-bottom: 3rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .feature-card {
+    background: var(--surface);
+    padding: 2rem;
+    transition: background 0.2s;
+  }
+  .feature-card:hover { background: #1a1a18; }
+  .feature-icon {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .feature-card h3 {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+  }
+  .feature-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* HOW IT WORKS */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    position: relative;
+  }
+  .step { position: relative; }
+  .step-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+  .step h3 {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+  .step p { font-size: 14px; color: var(--muted); }
+
+  /* CTA SECTION */
+  .cta-section {
+    text-align: center;
+    padding: 8rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 400px;
+    background: radial-gradient(ellipse at center, rgba(200,245,90,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-section h2 {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    max-width: 600px;
+    margin-left: auto; margin-right: auto;
+  }
+  .cta-section p {
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
+  }
+  .price-row {
+    display: flex; align-items: baseline; justify-content: center; gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  .price-main {
+    font-family: var(--serif);
+    font-size: 3.5rem;
+  }
+  .price-note {
+    font-size: 14px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+  .buy-options {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  }
+  .btn-outline {
+    border: 1px solid var(--border-hover);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0.75rem 1.75rem;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    font-size: 13px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* PREVIEW */
+  .preview-wrap {
+    margin-top: 4rem;
+    width: 100%;
+    max-width: 900px;
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+  .preview-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(200,245,90,0.15), rgba(200,245,90,0.03));
+    z-index: 0;
+  }
+  .preview-inner {
+    position: relative;
+    border-radius: 11px;
+    overflow: hidden;
+    border: 1px solid rgba(200,245,90,0.15);
+    z-index: 1;
+  }
+  .preview-inner img { width: 100%; display: block; }
+  .preview-bar {
+    background: #1a1a18;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .preview-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border-hover); }
+  .preview-url { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-left: 8px; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-cta { font-size: 12px; padding: 0.4rem 1rem; }
+    .hero { padding: 6rem 1.25rem 3rem; }
+    .hero-actions { flex-direction: column; align-items: stretch; text-align: center; }
+    .btn-primary { justify-content: center; }
+    .btn-secondary { text-align: center; padding: 0.5rem; }
+    section { padding: 3.5rem 1.25rem; }
+    .section-title { margin-bottom: 2rem; }
+    .features-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; gap: 1.5rem; }
+    .buy-options { flex-direction: column; align-items: stretch; }
+    .btn-outline { text-align: center; }
+    .price-main { font-size: 2.5rem; }
+    .cta-section { padding: 5rem 1.25rem; }
+    .preview-wrap { margin-top: 2.5rem; }
+    footer { flex-direction: column; align-items: center; text-align: center; }
+  }
+
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 2rem; }
+    .feature-card { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">freelancer-os</a>
+  <a class="nav-cta" href="https://dawnborn.gumroad.com/l/xkncg">Get it — €27</a>
+</nav>
+
+<div class="hero">
+  <p class="eyebrow">Notion Template</p>
+  <h1>Stop juggling tools.<br>Start running your <em>business.</em></h1>
+  <p class="hero-sub">Freelancer OS is a complete Notion workspace — clients, invoices, leads, projects, and AI prompts. One system. No subscriptions.</p>
+  <div class="hero-actions">
+    <a class="btn-primary" href="https://dawnborn.gumroad.com/l/xkncg">
+      Buy on Gumroad
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a class="btn-secondary" href="https://www.etsy.com/de/listing/4500006975">or get it on Etsy for €24 →</a>
+  </div>
+  <p class="price-badge">€27 · one-time · instant download · free updates</p>
+
+  <div class="preview-wrap">
+    <div class="preview-inner">
+      <div class="preview-bar">
+        <div class="preview-dot"></div>
+        <div class="preview-dot"></div>
+        <div class="preview-dot"></div>
+        <span class="preview-url">🚀 Freelancer OS — Notion</span>
+      </div>
+      <div style="background:#191918; padding: 2rem; text-align:left;">
+        <div style="display:flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap:wrap;">
+          <div style="background:#1f1f1e; border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:1rem 1.5rem; flex:1; min-width:120px;">
+            <div style="font-family:var(--mono); font-size:10px; color:var(--muted); margin-bottom:4px;">💰 Monatsumsatz</div>
+            <div style="font-family:var(--serif); font-size:1.4rem; color:var(--accent);">€4.200</div>
+          </div>
+          <div style="background:#1f1f1e; border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:1rem 1.5rem; flex:1; min-width:120px;">
+            <div style="font-family:var(--mono); font-size:10px; color:var(--muted); margin-bottom:4px;">📁 Aktive Projekte</div>
+            <div style="font-family:var(--serif); font-size:1.4rem; color:var(--text);">6</div>
+          </div>
+          <div style="background:#1f1f1e; border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:1rem 1.5rem; flex:1; min-width:120px;">
+            <div style="font-family:var(--mono); font-size:10px; color:var(--muted); margin-bottom:4px;">🎯 Aktive Leads</div>
+            <div style="font-family:var(--serif); font-size:1.4rem; color:var(--text);">12</div>
+          </div>
+          <div style="background:#1f1f1e; border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:1rem 1.5rem; flex:1; min-width:120px;">
+            <div style="font-family:var(--mono); font-size:10px; color:var(--muted); margin-bottom:4px;">⏱ Stunden/Woche</div>
+            <div style="font-family:var(--serif); font-size:1.4rem; color:var(--text);">32h</div>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+          <div style="background:#1f1f1e; border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:1rem;">
+            <div style="font-family:var(--mono); font-size:10px; color:var(--accent); margin-bottom:0.75rem;">🎯 Lead Pipeline</div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted);"><span>Acme Corp</span><span style="color:var(--accent); background:rgba(200,245,90,0.1); padding:2px 8px; border-radius:4px; font-size:10px;">Proposal</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted);"><span>Studio XY</span><span style="color:#60a5fa; background:rgba(96,165,250,0.1); padding:2px 8px; border-radius:4px; font-size:10px;">In Talk</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted);"><span>Freelance GmbH</span><span style="color:#34d399; background:rgba(52,211,153,0.1); padding:2px 8px; border-radius:4px; font-size:10px;">Signed</span></div>
+            </div>
+          </div>
+          <div style="background:#1f1f1e; border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:1rem;">
+            <div style="font-family:var(--mono); font-size:10px; color:var(--accent); margin-bottom:0.75rem;">🧾 Offene Rechnungen</div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted);"><span>INV-012</span><span style="color:#f87171; background:rgba(248,113,113,0.1); padding:2px 8px; border-radius:4px; font-size:10px;">Überfällig</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted);"><span>INV-013</span><span style="color:#fbbf24; background:rgba(251,191,36,0.1); padding:2px 8px; border-radius:4px; font-size:10px;">Ausstehend</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted);"><span>INV-011</span><span style="color:#34d399; background:rgba(52,211,153,0.1); padding:2px 8px; border-radius:4px; font-size:10px;">Bezahlt</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<section>
+  <p class="section-label">What's included</p>
+  <h2 class="section-title">Everything a freelancer needs,<br>nothing they don't.</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">01 / dashboard</span>
+      <h3>Revenue Dashboard</h3>
+      <p>See income, open invoices, and project status at a glance. Formulas do the math automatically.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">02 / clients</span>
+      <h3>Client Tracker</h3>
+      <p>Full client history, contacts, notes — linked directly to your projects and invoices.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">03 / pipeline</span>
+      <h3>Lead Pipeline</h3>
+      <p>Track prospects from first touch to signed contract. Never let a lead fall through the cracks.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">04 / invoices</span>
+      <h3>Invoice Tracker</h3>
+      <p>Due dates, follow-up schedules, and paid/unpaid status — all in one place.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">05 / time</span>
+      <h3>Time Tracker</h3>
+      <p>Log billable hours with automatic totals. Know exactly what you've earned on every project.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">06 / ai</span>
+      <h3>AI Prompt Library</h3>
+      <p>20+ ready-to-use prompts for proposals, client onboarding, reminders, and follow-ups.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section>
+  <p class="section-label">Setup</p>
+  <h2 class="section-title">Up and running in 30 minutes.</h2>
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">step 01</span>
+      <h3>Buy once</h3>
+      <p>One-time payment on Gumroad or Etsy. No subscription, no hidden fees.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">step 02</span>
+      <h3>Click the link</h3>
+      <p>Your download includes a PDF with the direct Notion template link inside.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">step 03</span>
+      <h3>Duplicate</h3>
+      <p>One click to copy the template into your own Notion workspace. Free plan works.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">step 04</span>
+      <h3>Add your first client</h3>
+      <p>You're live. The system is ready — just fill it with your real data.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section>
+  <p class="section-label">Who it's for</p>
+  <h2 class="section-title">Built for freelancers who bill by project.</h2>
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">designers</span>
+      <p>Track client feedback, revisions, and invoices without switching between 5 apps.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">developers</span>
+      <p>Manage retainer clients, project sprints, and time tracking in one place.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">copywriters</span>
+      <p>Never lose a lead or forget a follow-up again. Your pipeline runs itself.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">consultants</span>
+      <p>Professional client onboarding and invoice tracking — done in 30 minutes.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section>
+  <p class="section-label">Reviews</p>
+  <h2 class="section-title">What buyers say.</h2>
+  <div class="features-grid" style="grid-template-columns: 1fr;">
+    <div class="feature-card">
+      <div style="display:flex; gap: 4px; margin-bottom: 1rem;">
+        <span style="color: var(--accent); font-size: 16px;">★★★★★</span>
+      </div>
+      <p style="font-family: var(--serif); font-size: 1.15rem; font-weight: 400; color: var(--text); margin-bottom: 1rem; line-height: 1.5;">"Alles übersichtlich und einfach gemacht — daher 5 Sterne, echt zu empfehlen."</p>
+      <span style="font-family: var(--mono); font-size: 12px; color: var(--muted);">Sven Wosny · Gumroad · verified purchase</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section>
+  <p class="section-label">FAQ</p>
+  <h2 class="section-title">Common questions.</h2>
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">Do I need Notion Pro?</span>
+      <p>No. The free Notion plan works perfectly. You don't need to upgrade anything.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">I'm new to Notion. Is this for me?</span>
+      <p>Yes. The Setup Guide walks you through everything step by step. Up and running in 30 minutes.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">What if I need help?</span>
+      <p>Message me on Gumroad or Etsy. I respond within 24 hours.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">Are updates included?</span>
+      <p>Yes — free lifetime updates. When the template improves, you get it automatically.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<div class="cta-section">
+  <h2>Your freelance business deserves a real operating system.</h2>
+  <p>One-time payment. Instant access. Free updates forever.</p>
+  <div class="price-row">
+    <span class="price-main">€27</span>
+    <span class="price-note">/ one-time</span>
+  </div>
+  <div class="buy-options">
+    <a class="btn-primary" href="https://dawnborn.gumroad.com/l/xkncg">Buy on Gumroad — €27</a>
+    <a class="btn-outline" href="https://www.etsy.com/de/listing/4500006975">Buy on Etsy — €24</a>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Dennis Lauterborn</span>
+  <span>
+    <a href="https://dawnborn.gumroad.com/l/xkncg">Gumroad</a> ·
+    <a href="https://www.etsy.com/de/listing/4500006975">Etsy</a> ·
+    <a href="https://github.com/Cyborg97-byte/claude-os">GitHub</a>
+  </span>
+</footer>
+
+</body>
+</html>
