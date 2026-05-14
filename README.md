@@ -1,27 +1,50 @@
-# 🧠 Claude OS — Dennis' AI Wissensbasis
+# 🧠 Freelancer OS — Notion Template
 
-Dieses Repository versioniert alle Prompts, Workflows, Learnings und Outputs aus meinen Claude-Sessions.
-Ziel: systematisch besser werden im Umgang mit Claude — jede Session baut auf der letzten auf.
+> One system to run your entire freelance business. No subscriptions. No bloat.
 
-## Struktur
+**Built for:** Freelance designers · developers · copywriters · consultants  
+**Stack:** Notion (free plan works) · Relations · Formulas · Kanban  
+**Price:** €27 on [Gumroad](https://dawnborn.gumroad.com/l/xkncg) · €24 on Etsy · One-time payment
 
-| Ordner | Inhalt |
-|--------|--------|
-| `prompts/` | Wiederverwendbare Prompt-Templates |
-| `workflows/` | Schritt-für-Schritt Workflows für wiederkehrende Aufgaben |
-| `learnings/` | Erkenntnisse und Best Practices aus Sessions |
-| `product-texts/` | Finale Texte für Freelancer OS (Gumroad, Etsy, PH) |
-| `tools/` | Skripte und Tools die Claude gebaut hat |
+---
 
-## Wie es funktioniert
+## What's Inside
 
-Nach jeder produktiven Claude-Session:
-1. Neue Erkenntnisse in `learnings/` committen
-2. Neue Prompts in `prompts/` speichern
-3. Neue Workflows in `workflows/` dokumentieren
+| Module | What it does |
+|---|---|
+| 📊 Revenue Dashboard | See income, open invoices, and project status at a glance |
+| 🗂 Project Board | Kanban: Proposal → In Progress → Done |
+| 👥 Client Tracker | Full client history, contacts, notes |
+| 🔥 Lead Pipeline | Track prospects from first touch to signed contract |
+| 🧾 Invoice Tracker | Due dates, follow-up schedule, paid/unpaid status |
+| ⏱ Time Tracker | Billable hours with auto-calculated totals |
+| 🤖 AI Prompt Library | 20+ prompts for proposals, onboarding, reminders |
+| 📋 Client Onboarding | Template for smooth project kickoffs |
 
-## Projekt
+---
 
-**Freelancer OS** — Notion Template für Freelancer
-- Gumroad: https://dawnborn.gumroad.com/l/xkncg
-- Etsy: https://www.etsy.com/de/listing/4500006975
+## How to Get Started
+
+1. **Buy** on [Gumroad](https://dawnborn.gumroad.com/l/xkncg) or [Etsy](https://www.etsy.com/de/listing/4500006975)
+2. **Open** the PDF → click the Notion link
+3. **Duplicate** to your Notion workspace (free plan works)
+4. **Add your first client** — done in under 30 minutes
+
+---
+
+## Changelog
+
+See [`CHANGELOG.md`](./claude-os/CHANGELOG.md) for version history and updates.
+
+---
+
+## About
+
+Built by [Dennis Lauterborn](https://github.com/Cyborg97-byte) — freelancer, builder, Notion nerd.
+
+If you bought the template and have feedback → message me on [Gumroad](https://dawnborn.gumroad.com/l/xkncg) or [Etsy](https://www.etsy.com/de/listing/4500006975).
+
+---
+
+*Freelancer OS — Stop juggling tools. Start running your business.*
+
